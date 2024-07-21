@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap');
+
+@tailwind base;
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #f97316 white;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  height: 10px;
+  width: 5px;
+}
+
+*::-webkit-scrollbar-track {
+  background: white;
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: gray;
+  border-radius: 5px;
+  border: 1px solid gray;
+}
+
+@tailwind components;
+@tailwind utilities;
+
+.dynamic-txts {
+  overflow: hidden;
+  height: 35px;
+}
+
+.dynamic-txts li {
+  list-style: none;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  color: #73777b;
+  top: 0;
+  position: relative;
+  animation: slide 6s steps(3) infinite;
+}
+
+@keyframes slide {
+  100% {
+    top: -110px;
+  }
+}
+
+.dynamic-txts li span {
+  position: relative;
+}
+
+.dynamic-txts li span::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  height: 115%;
+  width: 100%;
+  border-left: 2px solid #73777b;
+  background-color: white;
+  animation: typing 2s steps(17) infinite;
+}
+
+@keyframes typing {
+  100% {
+    left: 100%;
+    margin: 0 -20px 0 20px;
+  }
+}
+
+* {
+  font-family: 'Ubuntu', 'sans-serif';
+}

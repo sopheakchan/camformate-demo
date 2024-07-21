@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap');
+
+* {
+  font-family: 'Ubuntu', 'sans-serif';
+}
+
+#nprogress .bar {
+  background: #f97316 !important;
+  height: 4px !important;
+}
+#nprogress .peg {
+  box-shadow: 0 0 10px #f97316, 0 0 5px #f97316 !important;
+}
+#nprogress .spinner-icon {
+  border-top-color: #f97316 !important;
+  border-left-color: #f97316 !important;
+}

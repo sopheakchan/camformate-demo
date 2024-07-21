@@ -1,0 +1,96 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "build": {
+      "dependsOn": [
+        "^build",
+        "$NEXT_PUBLIC_GOOGLE_CLIENT_ID",
+        "$NEXT_PUBLIC_BASE_URL",
+        "$PORT",
+        "$DATABASE",
+        "$NEXT_PUBLIC_API_KEY",
+        "$NEXT_PUBLIC_AUTH_DOMAIN",
+        "$NEXT_PUBLIC_PROJECT_ID",
+        "$NEXT_PUBLIC_STORAGE_BUCKET",
+        "$NEXT_PUBLIC_MESSAGING_SENDERID",
+        "$NEXT_PUBLIC_APP_ID",
+        "$NEXT_PUBLIC_MEASUREMENT_ID",
+        "$NEXT_PUBLIC_BASE_URL",
+        "$FIREBASE_CREDENTIAL",
+        "$CLOUDINARY_NAME",
+        "$CLOUDINARY_API_KEY",
+        "$CLOUDINARY_API_SECRET",
+        "$API_KEY",
+        "$AUTH_DOMAIN",
+        "$PROJECT_ID",
+        "$STORAGE_BUCKET",
+        "$MESSAGING_SENDERID",
+        "$APP_ID",
+        "$MEASUREMENT_ID",
+        "$NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN"
+      ],
+      "outputs": ["dist/**", ".next/**"]
+    },
+    "lint": {
+      "outputs": [],
+      "dependsOn": [
+        "$NEXT_PUBLIC_GOOGLE_CLIENT_ID",
+        "$PORT",
+        "$DATABASE",
+        "$NEXT_PUBLIC_API_KEY",
+        "$NEXT_PUBLIC_AUTH_DOMAIN",
+        "$NEXT_PUBLIC_PROJECT_ID",
+        "$NEXT_PUBLIC_STORAGE_BUCKET",
+        "$NEXT_PUBLIC_MESSAGING_SENDERID",
+        "$NEXT_PUBLIC_APP_ID",
+        "$NEXT_PUBLIC_MEASUREMENT_ID",
+        "$NEXT_PUBLIC_BASE_URL",
+        "$FIREBASE_CREDENTIAL",
+        "$CLOUDINARY_NAME",
+        "$CLOUDINARY_API_KEY",
+        "$CLOUDINARY_API_SECRET",
+        "$API_KEY",
+        "$AUTH_DOMAIN",
+        "$PROJECT_ID",
+        "$STORAGE_BUCKET",
+        "$MESSAGING_SENDERID",
+        "$APP_ID",
+        "$MEASUREMENT_ID",
+        "$NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN"
+      ]
+    },
+    "test": {},
+    "dev": {
+      "cache": false
+    },
+    "deploy": {
+      "dependsOn": ["build", "test", "lint"],
+      "outputs": []
+    }
+  },
+  "globalDependencies": [
+    "$NEXT_PUBLIC_GOOGLE_CLIENT_ID",
+    "$PORT",
+    "$DATABASE",
+    "$NEXT_PUBLIC_API_KEY",
+    "$NEXT_PUBLIC_AUTH_DOMAIN",
+    "$NEXT_PUBLIC_PROJECT_ID",
+    "$NEXT_PUBLIC_STORAGE_BUCKET",
+    "$NEXT_PUBLIC_MESSAGING_SENDERID",
+    "$NEXT_PUBLIC_APP_ID",
+    "$NEXT_PUBLIC_MEASUREMENT_ID",
+    "$NEXT_PUBLIC_BASE_URL",
+    "$FIREBASE_CREDENTIAL",
+    "$CLOUDINARY_NAME",
+    "$CLOUDINARY_API_KEY",
+    "$CLOUDINARY_API_SECRET",
+    "$API_KEY",
+    "$AUTH_DOMAIN",
+    "$PROJECT_ID",
+    "$STORAGE_BUCKET",
+    "$MESSAGING_SENDERID",
+    "$APP_ID",
+    "$MEASUREMENT_ID",
+    "$NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN"
+  ]
+}

@@ -1,0 +1,1896 @@
+openapi: 3.0.0
+
+info:
+  title: Camformant API
+  description: API Docs of Camformant includes Authentication,Scholarships,Jobs,Infos,Users routes.
+  contact:
+    name: Camformant
+    url: http://camformant.com
+  version: 1.0.0
+  
+servers: 
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/yimsotharoth999/Camformant/1.0.0
+  - description: Camformant Server
+    url: http://localhost:8080
+  
+paths:
+
+  # /auth/login:
+  #   post: 
+  #     tags: 
+  #       - Authentication
+  #     description: Login
+  #     requestBody:
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: '#/components/schemas/Login'
+  #     responses:
+  #       200:
+  #         description: Successfully Logged In
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/LoginResponse'
+  #       400:
+  #         description: Incorrect Email/Password
+  #         content:
+  #           application/json:
+  #             schema:
+  #               properties:
+  #                 status: 
+  #                   type: string
+  #                   example: "400"
+  #                 message:
+  #                   type: string
+  #                   example: "Incorrect Email or Password"
+              
+  # /auth/signup:
+  #   post:
+  #     tags: 
+  #       - Authentication
+  #     description: Create Account
+  #     requestBody:
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: '#/components/schemas/Signup'
+  #     responses:
+  #       201:
+  #         description: Successfully Created
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/LoginResponse'
+  #       400:
+  #         description: Missing Information
+  #         content:
+  #           application/json:
+  #             schema:
+  #               properties:
+  #                 status: 
+  #                   type: string
+  #                   example: "400"
+  #                 message:
+  #                   type: string
+  #                   example: "Missing Information"
+        
+  # /auth/forgot:
+  #     post:
+  #       tags: 
+  #         - Authentication
+  #       description: Forgot Password
+  #       requestBody:
+  #         content: 
+  #           application/json:
+  #             schema:
+  #               properties:
+  #                 email: 
+  #                   type: string
+  #                   example: example@gmail.com
+  #       responses:
+  #         200:
+  #           description: Check Your Email To Reset Password
+  #           content:
+  #             application/json:
+  #               schema:
+  #                 properties:
+  #                   status: 
+  #                     type: string
+  #                     example: "200"
+  #                   message:
+  #                     type: string
+  #                     example: "Check Your Email To Reset Password"
+  #         400:
+  #           description: Invalid Email
+  #           content:
+  #             application/json:
+  #               schema:
+  #                 properties:
+  #                   status: 
+  #                     type: string
+  #                     example: "400"
+  #                   message:
+  #                     type: string
+  #                     example: "Invalid Email"
+  
+  /scholarships:
+    get: 
+      tags:
+        - Scholarship
+      description: Fetch Scholarship Data
+      parameters: 
+        - name: pagination
+          in: query
+          schema:
+            type: integer
+            example: 1
+        - name: sort
+          in: query
+          schema:
+            type: string
+            example: salary
+        - name: search
+          in: query
+          schema:
+            type: string
+            example: sabaicode
+          
+      responses:
+        200:
+          description: Successfully Fetched
+          content:
+            application/json:
+                schema:
+                  $ref: '#/components/schemas/Scholarships'
+          
+    post:
+      tags: 
+        - Scholarship
+      description: add scholarship
+      parameters: 
+        - name: security
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/header_authorization'
+      requestBody:
+        content:
+          application/json:
+            schema: 
+             $ref: '#/components/schemas/ScholarshipReqBody'
+      responses:
+        201:
+          description: Successfully Created
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: 
+                    type: string
+                    example: "201"
+                  message: 
+                    type: string
+                    example: "Create Successfully"
+        400:
+          description: Missing Information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+          
+  /scholarships/{id}:
+    get:  
+      tags: 
+        - Scholarship
+      description: Get Single Scholarship
+      parameters: 
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: Successfully Fetched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Scholarship'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+    
+    patch:
+      tags: 
+        - Scholarship
+      description: update scholarship
+      parameters: 
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - name: security
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/header_authorization'
+            
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScholarshipReqBody'
+      responses:
+        200:
+          description: Successfully Updated
+          content:
+            application/json:
+              schema:
+                properties:
+                  status:
+                    type: string
+                    example: "200"
+                  message:
+                    type: string
+                    example: "Update Successfully"
+        400:
+          description: Invalid Information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        404: 
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+          
+    delete:
+      tags: 
+        - Scholarship
+      description: delete scholarship
+      parameters: 
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - name: security
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/header_authorization'
+            
+      responses:
+        204:
+          description: Successfully Deleted
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        404: 
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+    
+  /jobs:
+    get: 
+      tags: 
+        - Job
+      description: Fetch Jobs
+      parameters: 
+        - name: pagination
+          in: query
+          schema:
+            type: integer
+            example: 1
+        - name: sort
+          in: query
+          schema:
+            type: string
+            example: salary
+        - name: search
+          in: query
+          schema:
+            type: string
+            example: company_name
+      responses:
+        200:
+          description: Successfully Fetched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Jobs'
+              
+    post: 
+      tags: 
+        - Job
+      description: Create Job
+      parameters: 
+        - name: security
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/header_authorization'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobReqBody'
+      responses:
+        200: 
+          description: Successfully Created
+          content:
+            application/json:
+              schema:
+                properties:
+                  status:
+                    type: string
+                    example: "200"
+                  message:
+                    type: string
+                    example: "Create Successfully"
+        400:
+          description: Missing Information
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/BadRequestError'
+        401: 
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+    
+  /jobs/{id}:
+    get:
+      tags: 
+        - Job
+      description: Get Single Job
+      parameters: 
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: Successfully Fetched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        404: 
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+                
+    patch:
+      tags:
+        - Job
+      description: Update Job
+      parameters: 
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - name: security
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/header_authorization'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobReqBody'
+      responses:
+        200:
+          description: Successfully Updated
+          content:
+            application/json:
+              schema:
+                properties:
+                  status:
+                    type: string
+                    example: "200"
+                  message:
+                    type: string
+                    example: "Update Successfully"
+        400:
+          description: Invalid Information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+            
+    delete:
+      tags:
+        - Job
+      description: Delete a Job
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - name: security
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/header_authorization'
+      responses:
+        204:
+          description: Successfully Deleted
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+    
+  /info:
+    get:
+      tags: 
+        - Info
+      description: Fetch All Info
+      parameters: 
+        - name: pagination
+          in: query
+          schema:
+            type: integer
+            example: 1
+        - name: sort
+          in: query
+          schema:
+            type: string
+            example: rates
+        - name: search
+          in: query
+          schema:
+            type: string
+            example: ThisSchool
+      responses:
+        200:
+          description: Successfully Fetch
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Many_Info'
+          
+    post: 
+      tags: 
+        - Info
+      description: Created Info
+      parameters: 
+        - name: security
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/header_authorization'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InfoReqBody'
+      responses:
+        201:
+          description: Successfully Created
+          content:
+            application/json:
+              schema:
+                properties:
+                  status:
+                    type: string
+                    example: "201"
+                  message:
+                    type: string
+                    example: "Create Successfully"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+    
+  /info/{id}:
+    get:
+      tags: 
+        - Info
+      description: Fetch Single Info
+      parameters: 
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200: 
+          description: Successfully Fetehed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+        404: 
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+        
+    patch:
+      tags: 
+        - Info
+      description: Update Info
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - name: security
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/header_authorization'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InfoReqBody'
+      responses:
+        200:
+          description: Successfully Updated
+          content:
+            application/json:
+              schema:
+                properties:
+                  status:
+                    type: string
+                    example: "200"
+                  message:
+                    type: string
+                    example: "Update Successfully"
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+    
+    delete:
+      tags: 
+        - Info
+      description: Delete Info
+      parameters: 
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - name: security
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/header_authorization'
+      responses:
+        204:
+          description: Successfully Deleted
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        404: 
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+    
+  /accounts:
+    get:
+      tags: 
+        - Accounts
+      description: Get All Users
+      parameters: 
+        - name: pagination
+          in: query
+          schema:
+            type: integer
+            example: 1
+        - name: sort
+          in: query
+          schema:
+            type: string
+            example: name
+        - name: search
+          in: query
+          schema:
+            type: string
+            example: username-1
+      responses:
+        200:
+          description: Successfully Fetched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/users'
+    
+    post:
+      tags:
+        - Accounts
+      description: Create Account
+      parameters: 
+        - name: security
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/header_authorization'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Signup'
+      responses:
+        201:
+          description: Successfully Created
+          content:
+            application/json:
+              schema:
+                properties:
+                  status:
+                    type: string
+                    example: "201"
+                  message:
+                    type: string
+                    example: "Create Successfully"
+        400:
+          description: Invalid Information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        401: 
+          description: Not An Admin
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+  
+  /accounts/{id}:
+    get:
+      tags:
+        - Accounts
+      description: Get Single User (Admin)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200: 
+          description: Successfully Fetched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        404: 
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+          
+    patch:
+      tags:
+        - Accounts
+      description: Update User (Admin)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - name: security
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/header_authorization'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Signup'
+      responses:
+        200: 
+          description: Successfully Updated
+          content:
+            application/json:
+              schema:
+                properties:
+                  status:
+                    type: string
+                    example: "200"
+                  message:
+                    type: string
+                    example: "Update Successfully"
+        400:
+          description: Invalid Information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        401:
+          description: Not An Admin
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        404: 
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+    
+    delete:
+      tags:
+        - Accounts
+      description: Delete User (Admin)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            example: 1
+        - name: security
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/header_authorization'
+      responses:
+        204: 
+          description: Successfully Deleted
+        400:
+          description: Invalid ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestError'
+        401:
+          description: Not An Admin
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedError'
+        404: 
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+            
+  
+components:
+  schemas:
+    Login:
+      type: object
+      properties:
+        email:
+          type: string
+          example: example@gmail.com
+        password:
+          type: string
+          example: 123456
+    
+    Signup:
+      type: object
+      properties:
+        email: 
+          type: string
+          example: example@gmail.com
+        username:
+          type: string
+          example: test_user
+        account_type:
+          type: string
+          example: announcer
+        password:
+          type: string
+          example: 123456
+    
+    LoginResponse:
+      type: object
+      properties:
+        link:
+          type: string
+          example: "http://localhost:8080/auth/login"
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              username:
+                type: string
+                example: test_user
+              access_token:
+                type: string
+                example: your access token
+              image:
+                type: string
+                example: profile.jpg
+              email: 
+                type: string
+                example: example@gmail.com
+    
+    ScholarshipReqBody:
+      type: object
+      properties:
+        name: 
+          type: string
+          example:
+        description:
+          type: string
+          example: blah blah blah
+        location:
+          type: string
+          example: SabaiCode
+        prize:
+          type: string
+          example: 70%
+        start_date:
+          type: string
+          example: 9/1/2023
+        end_date:
+          type: string
+          example: 11/1/2023
+        requirement:
+          type: array
+          items: 
+              properties:
+                id: 
+                  type: string
+                  example: rq-1
+        benefits:
+          type: array
+          items: 
+              properties:
+                id: 
+                  type: string
+                  example: bf-1
+    
+    Scholarship:
+      type: object
+      properties:
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: "http://localhost:8080/scholarships/1"
+            next:
+              type: string
+              example: ""
+            last:
+              type: string
+              example: ""
+        data:
+          type: array
+          items:
+            properties:
+              type:
+                type: string
+                example: Scholarship
+              id:
+                type: integer
+                example: 1
+              attributes:
+                type: object
+                properties:
+                  name: 
+                    type: string
+                    example:
+                  description:
+                    type: string
+                    example: blah blah blah
+                  location:
+                    type: string
+                    example: SabaiCode
+                  prize:
+                    type: string
+                    example: 70%
+                  start_date:
+                    type: string
+                    example: 9/1/2023
+                  end_date:
+                    type: string
+                    example: 11/1/2023
+                  owner:
+                    type: string
+                    example: Camformant
+                  requirement:
+                    type: array
+                    items: 
+                        properties:
+                          id: 
+                            type: string
+                            example: rq-1
+                  benefits:
+                    type: array
+                    items: 
+                        properties:
+                          id: 
+                            type: string
+                            example: bf-1
+                  relationships:
+                    type: object
+                    properties:
+                      users: 
+                        type: object
+                        properties:
+                          data:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                type:
+                                  type: string
+                                  example: Users
+                                _id:
+                                  type: string
+                                  example: 1
+        included:
+          type: array
+          items: 
+            type: object
+            properties:
+              type: 
+                type: string
+                example: Users
+              _id:
+                type: string
+                example: 1
+              attributes: 
+                type: object
+                properties:
+                  uid: 
+                    type: string
+                    example: 1
+    
+    Scholarships:
+      type: object
+      properties:
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: "http://localhost:8080/scholarships"
+            next:
+              type: string
+              example: "http://localhost:8080/scholarships?page[offset]=2"
+            last:
+              type: string
+              example: "http://localhost:8080/scholarships?page[offset]=10"
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                example: Scholarship
+              id:
+                type: integer
+                example: 1
+              attributes: 
+                type: object
+                properties:
+                  name: 
+                    type: string
+                    example: SabaiCode bootcamp
+                  description:
+                    type: string
+                    example: blah blah blah
+                  location:
+                    type: string
+                    example: SabaiCode
+                  prize:
+                    type: string
+                    example: 70%
+                  start_date:
+                    type: string
+                    example: 9/1/2023
+                  end_date:
+                    type: string
+                    example: 11/1/2023
+                  owner:
+                    type: string
+                    example: Camformant
+                  requirement:
+                    type: array
+                    items: 
+                        properties:
+                          id: 
+                            type: string
+                            example: rq-1
+                  benefits:
+                    type: array
+                    items: 
+                        properties:
+                          id: 
+                            type: string
+                            example: bf-1
+              relationships:
+                type: object
+                properties:
+                  users: 
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            type:
+                              type: string
+                              example: Users
+                            _id:
+                              type: string
+                              example: 1
+        included:
+          type: array
+          items: 
+            type: object
+            properties:
+              type: 
+                type: string
+                example: Users
+              _id:
+                type: string
+                example: 1
+              attributes: 
+                type: object
+                properties:
+                  uid: 
+                    type: string
+                    example: 1
+    
+    JobReqBody:
+      type: object
+      properties:
+        name:
+          type: string
+          example: C# Developers Seeking
+        description:
+          type: string
+          example: We are looking for C# developers
+        salary:
+          type: number
+          example: 1000
+        schedule:
+          type: string
+          example: 9am - 5pm (Monday - Friday)
+        location:
+          type: string
+          example: Phnom Penh
+        start_date:
+          type: string
+          example: 9/1/2023
+        end_date:
+          type: string
+          example: 11/1/2023
+        requirements:
+          type: array
+          items:
+            properties:
+              id:
+                type: integer
+                example: 1
+        benefits:
+          type: array
+          items: 
+            properties:
+              id:
+                type: integer
+                example: 1
+    
+    Job:
+      type: object
+      properties:
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: "http://localhost:8080/jobs/askjdfewdj"
+            next:
+              type: string
+              example: ""
+            last:
+              type: string
+              example: ""
+        data:
+          type: array
+          items:
+            properties:
+              type: 
+                type: string
+                example: Job
+              id: 
+                type: integer
+                example: 1
+              attributes: 
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: C# Developers Seeking
+                  description:
+                    type: string
+                    example: We are looking for C# developers
+                  salary:
+                    type: number
+                    example: 1000
+                  schedule:
+                    type: string
+                    example: 9am - 5pm (Monday - Friday)
+                  location:
+                    type: string
+                    example: Phnom Penh
+                  start_date:
+                    type: string
+                    example: 9/1/2023
+                  end_date:
+                    type: string
+                    example: 11/1/2023
+                  requirements:
+                    type: array
+                    items:
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                  benefits:
+                    type: array
+                    items: 
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                  relationships:
+                    type: object
+                    properties:
+                      Users: 
+                        type: object
+                        properties:
+                          data:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                type:
+                                  type: string
+                                  example: Users
+                                _id:
+                                  type: string
+                                  example: 1
+        included:
+          type: array
+          items: 
+            type: object
+            properties:
+              type: 
+                type: string
+                example: Users
+              _id:
+                type: string
+                example: 1
+              attributes: 
+                type: object
+                properties:
+                  uid: 
+                    type: string
+                    example: 1
+            
+    Jobs:
+      type: object
+      properties:
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: "http://localhost:8080/jobs"
+            next:
+              type: string
+              example: "http://localhost:8080/jobs?page[offset]=2"
+            last:
+              type: string
+              example: "http://localhost:8080/jobs?page[offset]=10"
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              type: 
+                type: string
+                example: Jobs
+              id: 
+                type: integer
+                example: 1
+              attributes:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: C# Developers Seeking
+                  description:
+                    type: string
+                    example: We are looking for C# developers
+                  salary:
+                    type: number
+                    example: 1000
+                  schedule:
+                    type: string
+                    example: 9am - 5pm (Monday - Friday)
+                  location:
+                    type: string
+                    example: Phnom Penh
+                  start_date:
+                    type: string
+                    example: 9/1/2023
+                  end_date:
+                    type: string
+                    example: 11/1/2023
+                  requirements:
+                    type: array
+                    items:
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                  benefits:
+                    type: array
+                    items: 
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+              relationships:
+                type: object
+                properties:
+                  Users: 
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            type:
+                              type: string
+                              example: Users
+                            _id:
+                              type: string
+                              example: 1
+        included:
+          type: array
+          items: 
+            type: object
+            properties:
+              type: 
+                type: string
+                example: Users
+              _id:
+                type: string
+                example: 1
+              attributes: 
+                type: object
+                properties:
+                  uid: 
+                    type: string
+                    example: 1
+                  
+    InfoReqBody:
+      type: object
+      properties:
+        name:
+          type: string
+          example: SabaiCode
+        description:
+          type: string
+          example: SabaiCode is an education center blah blah
+        image: 
+          type: string
+          example: school.jpg
+        rating:
+          type: integer
+          example: 4
+        location:
+          type: string
+          example: Pnhom Penh
+        website:
+          type: string
+          example: www.example.com
+        faculties:
+          type: array
+          items: 
+            properties:
+              id:
+                type: integer
+                example: 1
+              name:
+                type: string
+                example: Computer Science
+              description:
+                type: string
+                example: blah blah blah
+              subjects:
+                type: array
+                items: 
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    name:
+                      type: string
+                      example: web development
+                    description:
+                      type: string
+                      example: build website
+                    prices:
+                      type: array
+                      items:
+                        properties:
+                          year:
+                            type: string
+                            example: Freshman Year
+                          price: 
+                            type: number
+                            example: 500
+                    image:
+                      type: string
+                      example: web.jpg
+    
+    Info:
+      type: object
+      properties:
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: "http://localhost:8080/infos/kdkwowjjkkw"
+            next:
+              type: string
+              example: ""
+            last:
+              type: string
+              example: ""
+        data:
+          type: array
+          items:
+            properties:
+              type:
+                type: string
+                example: Info
+              id:
+                type: integer
+                example: 1
+              attributes: 
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: SabaiCode
+                  description:
+                    type: string
+                    example: SabaiCode is an education center blah blah
+                  image: 
+                    type: string
+                    example: school.jpg
+                  rating:
+                    type: integer
+                    example: 4
+                  location:
+                    type: string
+                    example: Pnhom Penh
+                  website:
+                    type: string
+                    example: www.example.com
+                  faculties:
+                    type: array
+                    items: 
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: Computer Science
+                        description:
+                          type: string
+                          example: blah blah blah
+                        subjects:
+                          type: array
+                          items: 
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                example: 1
+                              name:
+                                type: string
+                                example: web development
+                              description:
+                                type: string
+                                example: build website
+                              prices:
+                                type: array
+                                items:
+                                  properties:
+                                    year:
+                                      type: string
+                                      example: Freshman Year
+                                    price: 
+                                      type: number
+                                      example: 500
+                              image:
+                                type: string
+                                example: web.jpg
+                  relationships:
+                    type: object
+                    properties:
+                      Users: 
+                        type: object
+                        properties:
+                          data:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                type:
+                                  type: string
+                                  example: Users
+                                _id:
+                                  type: string
+                                  example: 1
+        included:
+          type: array
+          items: 
+            type: object
+            properties:
+              type: 
+                type: string
+                example: User
+              _id:
+                type: string
+                example: 1
+              attributes: 
+                type: object
+                properties:
+                  uid: 
+                    type: string
+                    example: 1
+          
+    Many_Info:
+      type: object
+      properties:
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: "http://localhost:8080/infos"
+            next:
+              type: string
+              example: "http://localhost:8080/infos?page[offset]=2"
+            last:
+              type: string
+              example: "http://localhost:8080/infos?page[offset]=10"
+        data:
+          type: array
+          items:
+            properties:
+              type: 
+                type: string
+                example: Info
+              id:
+                type: integer
+                example: 1
+              attributes:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: SabaiCode
+                  description:
+                    type: string
+                    example: SabaiCode is an education center blah blah
+                  image: 
+                    type: string
+                    example: school.jpg
+                  rating:
+                    type: integer
+                    example: 4
+                  location:
+                    type: string
+                    example: Pnhom Penh
+                  website:
+                    type: string
+                    example: www.example.com
+                  faculties:
+                    type: array
+                    items: 
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: Computer Science
+                        description:
+                          type: string
+                          example: blah blah blah
+                        subjects:
+                          type: array
+                          items: 
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                example: 1
+                              name:
+                                type: string
+                                example: web development
+                              description:
+                                type: string
+                                example: build website
+                              prices:
+                                type: array
+                                items:
+                                  properties:
+                                    year:
+                                      type: string
+                                      example: Freshman Year
+                                    price: 
+                                      type: number
+                                      example: 500
+                              image:
+                                type: string
+                                example: web.jpg
+                  relationships:
+                    type: object
+                    properties:
+                      Users: 
+                        type: object
+                        properties:
+                          data:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                type:
+                                  type: string
+                                  example: Users
+                                _id:
+                                  type: string
+                                  example: 1
+        included:
+          type: array
+          items: 
+            type: object
+            properties:
+              type: 
+                type: string
+                example: User
+              _id:
+                type: string
+                example: 1
+              attributes: 
+                type: object
+                properties:
+                  uid: 
+                    type: string
+                    example: 1
+          
+    faculty:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Computer Science
+        description:
+          type: string
+          example: blah blah blah
+        subjects:
+          type: array
+          items: 
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+              name:
+                type: string
+                example: web development
+              description:
+                type: string
+                example: build website
+              prices:
+                type: array
+                items:
+                  properties:
+                    year:
+                      type: string
+                      example: Freshman Year
+                    price: 
+                      type: number
+                      example: 500
+              image:
+                type: string
+                example: web.jpg
+          
+    user:
+      type: object
+      properties:
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: "http://localhost:8080/users?idqkkdjwdjj"
+            next:
+              type: string
+              example: ""
+            last:
+              type: string
+              example: ""
+        data: 
+          type: array
+          items:
+            properties:
+              type:
+                type: string
+                example: User
+              id: 
+                type: integer
+                example: 1
+              attributes:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: test_user
+                  image:
+                    type: string
+                    example: profile.jpg
+              relationships:
+                type: object
+                properties:
+                  Contacts: 
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            type:
+                              type: string
+                              example: Contacts
+                            _id:
+                              type: string
+                              example: 1
+        included:
+          type: array
+          items: 
+            type: object
+            properties:
+              type: 
+                type: string
+                example: Contacts
+              _id:
+                type: string
+                example: 1
+              attributes: 
+                type: object
+                properties:
+                  phnone_number: 
+                    type: string
+                    example: 1
+          
+    users:
+      type: object
+      properties:
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: "http://localhost:8080/users"
+            next:
+              type: string
+              example: "http://localhost:8080/users?page[offset]=2"
+            last:
+              type: string
+              example: "http://localhost:8080/users?page[offset]=10"
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              type: 
+                type: string
+                example: Users
+              id: 
+                type: integer
+                example: 1
+              attributes:
+                type: object
+                properties:
+                  username:
+                    type: string
+                    example: test_user
+                  email:
+                    type: string
+                    example: example@gmail.com
+                  image:
+                    type: string
+                    example: profile.jpg
+                  representation:
+                    type: string
+                    example: Microsoft
+                  account_type: 
+                    type: string
+                    example: announcer
+              relationships:
+                type: object
+                properties:
+                  Contacts: 
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            type:
+                              type: string
+                              example: Contacts
+                            _id:
+                              type: string
+                              example: 1
+        included:
+          type: array
+          items: 
+            type: object
+            properties:
+              type: 
+                type: string
+                example: Contacts
+              _id:
+                type: string
+                example: 1
+              attributes: 
+                type: object
+                properties:
+                  phnone_number: 
+                    type: string
+                    example: 1
+                    
+    NotFoundError:
+      type: object
+      properties:
+        status:
+          type: string
+          example: 404
+        message: 
+          type: string
+          example: "ID is not found"
+          
+    BadRequestError:
+      type: object
+      properties:
+        status:
+          type: string
+          example: 400
+        message: 
+          type: string
+          example: "Invalid Information"
+          
+    UnauthorizedError:
+      type: object
+      properties:
+        status: 
+          type: string
+          example: 401
+        message:
+          type: string
+          example: "Unauthorized"
+          
+    ExternalServerError:
+      type: object
+      properties:
+        status: 
+          type: string
+          example: 500
+        message:
+          type: string
+          example: "Server Error"
+               
+    header_authorization:
+      type: string
+      example: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ
